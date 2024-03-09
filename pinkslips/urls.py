@@ -24,4 +24,7 @@ urlpatterns = [
     path("create_pink_slip/", views.create_pink_slip),
     path("search_appointment/", views.search_appointment),
     path("create_appointment/", views.create_appointment),
+    path('inventory_items/', views.inventory_list, name='inventory_list'),
+    path('billings/', views.billing_list, name='billing_list'),
+
 ]
