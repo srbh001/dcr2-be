@@ -20,10 +20,10 @@ from . import views
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
-    path("search_pink_slip/", views.search_pink_slip),
-    path("create_pink_slip/", views.create_pink_slip),
-    path("search_appointment/", views.search_appointment),
-    path("create_appointment/", views.create_appointment),
+    path("pinkslip/<str:id>", views.pinkslip),
+    path("pinkslips/", views.pinkslips),
+    path("appointment/<str:id>", views.appointment),
+    path("appointments/", views.appointments),
     path('inventory_items/', views.inventory_list, name='inventory_list'),
     path('billings/', views.billing_list, name='billing_list'),
 
