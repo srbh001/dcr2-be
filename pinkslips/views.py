@@ -152,7 +152,7 @@ def appointments(request):
             preferred_start_date=preferred_start_date,
             preferred_end_date=preferred_end_date,
             reason=reason,
-            appointment_id="".join([random.choice(string.ascii_letters + string.digits) for i in range(randint(8, 16))]),
+            appointment_id=id,
             approved=False,
             assigned_date=None
         )
