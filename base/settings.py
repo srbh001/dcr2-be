@@ -25,13 +25,9 @@ SECRET_KEY = "django-insecure-=5@@*xh5r@-+61u7-3eata7&u(1#idpni72bfn%hg1wad@q0$&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8080/"
-]  # TODO in actual production
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/"]  # TODO in actual production
 ALLOWED_HOSTS = ["*"]  # TODO: Change this to host IP when deployinnfg
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
@@ -45,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "pinkslips"
+    "pinkslips",
 ]
 
 MIDDLEWARE = [
