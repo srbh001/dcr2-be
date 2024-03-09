@@ -69,7 +69,8 @@ def search_appointment(request):
         
         appointments_data = []
         student_id = request.GET.get('student_id')
-        appointments = Appointments.objects.filter(student_id=student_id)
+        # appointments = Appointments.objects.filter(student_id=student_id)
+        appointments = Appointments.objects.all()
         for appointment in appointments:
             appointment_data = {
                 'student_name': appointment.student_name,
