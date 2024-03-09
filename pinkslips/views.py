@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import *
 from rest_framework.decorators import api_view
 from pinkslips.serializers import PinkSlipSerializer, AppointmentsSerializer
+import random
 
 @api_view(['GET'])
 def search_pink_slip(request):
@@ -13,7 +14,7 @@ def search_pink_slip(request):
         
         pink_slips_data = []
         student_id = request.GET.get('student_id')
-        pink_slips = PinkSlip.objects.filter(student_id=student_id)
+        pink_slips = PinkSlip.objects.all()
         for pink_slip in pink_slips:
             pink_slip_data = {
                 'student_name': pink_slip.student_name,
@@ -96,14 +97,14 @@ def create_appointment(request):
         preferred_start_date = request.POST.get('preferred_start_date')
         preferred_end_date = request.POST.get('preferred_end_date')
         reason = request.POST.get('reason')
-        
 
-        if len(student_id) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
-            raise ValueError('Student ID not correct')
-        if preferred_end_date < preferred_start_date:
-            raise ValueError('End date cannot be before start date')
-        if preferred_start_date <  date.today():
-            raise ValueError('Start date cannot be before today')
+        new_name = str(student_name)
+        # if len(student_id) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
+        #     raise ValueError('Student ID not correct')
+        # if preferred_end_date < preferred_start_date:
+        #     raise ValueError('End date cannot be before start date')
+        # if preferred_start_date <  date.today():
+        #     raise ValueError('Start date cannot be before today')
 
         appointment = Appointments.objects.create(
             student_name=student_name,
@@ -112,7 +113,7 @@ def create_appointment(request):
             preferred_start_date=preferred_start_date,
             preferred_end_date=preferred_end_date,
             reason=reason,
-            pinkslip_id="".join([random.choice(string.ascii_letters + string.digits) for i in range(randint(8, 16))]),
+            appointment_id="".join([random.choice(string.ascii_letters + string.digits) for i in range(randint(8, 16))]),
             approved=False,
             assigned_date=None
         )
