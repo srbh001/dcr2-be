@@ -154,7 +154,7 @@ def appointments(request):
             reason=reason,
             appointment_id=id,
             approved=False,
-            assigned_date=None
+            assigned_date=now()
         )
 
         serialized_data = AppointmentsSerializer(appointment, many=True)
