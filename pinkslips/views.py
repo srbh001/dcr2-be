@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from models import *
+from rest_framework.decorators import api_view
 
+@api_view(['GET'])
 def search_pink_slips(request):
     if request.method == 'GET':
         if request.GET.get('pinkslip_id'):
@@ -26,7 +28,7 @@ def search_pink_slips(request):
     else:
         return JsonResponse({'error': 'Unsupported request method'}, status=405)
 
-
+@api_view(['POST'])
 def create_pink_slip(request):
     if request.method == 'POST':
         student_name = request.POST.get('student_name')
@@ -56,6 +58,7 @@ def create_pink_slip(request):
 
         return JsonResponse({'pink_slip': pink_slip})
 
+@api_view(['GET'])
 def search_appointment(request):
     if request.method == 'GET':
         if request.GET.get('appointment_id'):
@@ -82,7 +85,7 @@ def search_appointment(request):
     else:
         return JsonResponse({'error': 'Unsupported request method'}, status=405)
 
-
+@api_view(['POST'])
 def create_appointment(request):
     if request.method == 'POST':
         student_name = request.POST.get('student_name')
