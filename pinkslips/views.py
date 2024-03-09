@@ -29,15 +29,15 @@ def search_pink_slips(request):
 
 def create_pink_slip(request):
     if request.method == 'POST':
-        student_name = request.POST.get('student_name').strip()
-        student_id = request.POST.get('student_id').strip().upper()
+        student_name = request.POST.get('student_name')
+        student_id = request.POST.get('student_id')
         date = request.POST.get('date')
         # preferred_start_date = request.POST.get('preferred_start_date')
         # preferred_end_date = request.POST.get('preferred_end_date')
-        reason = request.POST.get('reason').strip()
+        reason = request.POST.get('reason')
 
-        if len(student_id.strip()) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
-            raise ValueError('Student ID not correct')
+        # if len(student_id.strip()) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
+        #     raise ValueError('Student ID not correct')
         # if preferred_end_date < preferred_start_date:
         #     raise ValueError('End date cannot be before start date')
         # if preferred_start_date <  date.today():
@@ -58,7 +58,7 @@ def create_pink_slip(request):
 
 def search_appointment(request):
     if request.method == 'GET':
-        if request.GET.get('appointment_id').strip():
+        if request.GET.get('appointment_id'):
             appointment = Appointments.objects.get(id=request.GET.get('appointment_id'))
             return JsonResponse({'appointment': appointment})
         
@@ -71,7 +71,7 @@ def search_appointment(request):
                 'student_id': appointment.student_id,
                 'preferred_start_date': str(appointment.preferred_start_date),
                 'preferred_end_date': str(appointment.preferred_end_date),
-                'appointment_id': appointment.pinkslip_id,
+                'appointment_id': appointment.appointment_id,
                 'reason': appointment.reason,
                 'approved': appointment.approved,
                 'assigned_date': appointment.assigned_date
@@ -85,15 +85,15 @@ def search_appointment(request):
 
 def create_appointment(request):
     if request.method == 'POST':
-        student_name = request.POST.get('student_name').strip()
-        student_id = request.POST.get('student_id').strip().upper()
+        student_name = request.POST.get('student_name')
+        student_id = request.POST.get('student_id')
         # date = request.POST.get('date')
         preferred_start_date = request.POST.get('preferred_start_date')
         preferred_end_date = request.POST.get('preferred_end_date')
-        reason = request.POST.get('reason').strip()
+        reason = request.POST.get('reason')
         
 
-        if len(student_id.strip()) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
+        if len(student_id) < 7 or re.match(r'^((2[23][BbMm][0-9]{4})|([0-9]{9}))$', student_id.strip()) is None:
             raise ValueError('Student ID not correct')
         if preferred_end_date < preferred_start_date:
             raise ValueError('End date cannot be before start date')
@@ -114,5 +114,16 @@ def create_appointment(request):
 
         return JsonResponse({'pink_slip': pink_slip})
 
-# def approve_reject_pinkslip(request):
-#     if request.method == 'POST'
+def approve_reject_pinkslip(request):
+    if request.method == 'POST':
+        pink_slip = PinkSlip.objects.get(id=request.POST.get('pinkslip_id'))
+        pink_slip.approved = request.POST.get('approved')
+        pink_slip.save()
+        return JsonResponse({'pink_slip': pink_slip})
+
+def approve_reject_pinkslip(request):
+    if request.method == 'POST':
+        pink_slip = PinkSlip.objects.get(id=request.POST.get('pinkslip_id'))
+        pink_slip.approved = request.POST.get('approved')
+        pink_slip.save()
+        return JsonResponse({'pink_slip': pink_slip})
