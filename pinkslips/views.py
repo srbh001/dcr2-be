@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from models import *
+from .models import *
 from rest_framework.decorators import api_view
+from pinkslips.serializers import PinkSlipSerializer, AppointmentsSerializer
 
 @api_view(['GET'])
-def search_pink_slips(request):
+def search_pink_slip(request):
     if request.method == 'GET':
         if request.GET.get('pinkslip_id'):
             pink_slip = PinkSlip.objects.get(id=request.GET.get('pinkslip_id'))
@@ -80,7 +81,8 @@ def search_appointment(request):
                 'assigned_date': appointment.assigned_date
             }
             appointments.append(appointment_data)
-        return JsonResponse({'appointments': appointments})
+        serialized_data = AppointmentsSerializer(appointments, many=True)
+        return JsonResponse({'appointments': serialized_data.data})
     
     else:
         return JsonResponse({'error': 'Unsupported request method'}, status=405)
@@ -103,7 +105,7 @@ def create_appointment(request):
         if preferred_start_date <  date.today():
             raise ValueError('Start date cannot be before today')
 
-        pink_slip = Appointments.objects.create(
+        appointment = Appointments.objects.create(
             student_name=student_name,
             student_id=student_id,
             # date=date,
@@ -115,7 +117,8 @@ def create_appointment(request):
             assigned_date=None
         )
 
-        return JsonResponse({'pink_slip': pink_slip})
+        serialized_data = AppointmentsSerializer(appointment, many=True)
+        return JsonResponse({'appointment': serialized_data.data})
 
 def approve_reject_pinkslip(request):
     if request.method == 'POST':
