@@ -82,7 +82,7 @@ def search_appointment(request):
                 'approved': appointment.approved,
                 'assigned_date': appointment.assigned_date
             }
-            appointments.append(appointment_data)
+            appointments_data.append(appointment_data)
         serialized_data = AppointmentsSerializer(appointments, many=True)
         return JsonResponse({'appointments': serialized_data.data})
     
